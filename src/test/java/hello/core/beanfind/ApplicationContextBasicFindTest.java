@@ -7,16 +7,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ApplicationContextBasicFindTest {
-    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
-
+    AnnotationConfigApplicationContext ac = new
+            AnnotationConfigApplicationContext(AppConfig.class);
     @Test
     @DisplayName("빈 이름으로 조회")
     void findBeanByName() {
-        MemberService memberService = ac.getBean("memberService", MemberService.class);
-        org.assertj.core.api.Assertions.assertThat(MemberService).isInstanceOf(MemberServiceImpl.class);
+        MemberService memberService = ac.getBean("memberService",
+                MemberService.class);
+        assertThat(memberService).isInstanceOf(MemberServiceImpl.class);
     }
 
     @Test
@@ -29,8 +31,7 @@ class ApplicationContextBasicFindTest {
     @Test
     @DisplayName("구체 타입으로 조회")
     void findBeanByName2() {
-        MemberServiceImpl memberService = ac.getBean("memberService",
-                MemberServiceImpl.class);
+        MemberServiceImpl memberService = ac.getBean("memberService", MemberServiceImpl.class);
         assertThat(memberService).isInstanceOf(MemberServiceImpl.class);
     }
 
@@ -38,7 +39,7 @@ class ApplicationContextBasicFindTest {
     @DisplayName("빈 이름으로 조회X")
     void findBeanByNameX() {
         //ac.getBean("xxxxx", MemberService.class);
-        Assertions.assertThrows(NoSuchBeanDefinitionException.class, () ->
+        assertThrows(NoSuchBeanDefinitionException.class, () -> // 예외 터지게 하기
                 ac.getBean("xxxxx", MemberService.class));
     }
 }
